@@ -10,11 +10,20 @@
     <div class="container">
       <h1>Calculate mortgage</h1>
       <form onsubmit="handleSubmit(event)">
-        <label> Loan: <input name="loan" type="number" required /></label>
-        <label> MRR: <input name="mrr" type="number" required /></label>
+        <label>
+          Loan: <input name="loan" inputmode="numeric" type="number" required
+        /></label>
+        <label>
+          MRR: <input name="mrr" inputmode="numeric" type="number" required
+        /></label>
         <label>
           start payment (for testing):
-          <input name="startPayment" value="30000" type="number" required
+          <input
+            name="startPayment"
+            inputmode="numeric"
+            value="30000"
+            type="number"
+            required
         /></label>
         <button class="submit-button" type="submit">Calculate</button>
       </form>
