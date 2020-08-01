@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./index.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Calculate mortgage</h1>
+      <form onsubmit="handleSubmit(event)">
+        <label> Loan: <input name="loan" type="number" required /></label>
+        <label> MRR: <input name="mrr" type="number" required /></label>
+        <label>
+          start payment (for testing):
+          <input name="startPayment" value="30000" type="number" required
+        /></label>
+        <button class="submit-button" type="submit">Calculate</button>
+      </form>
+      <div class="display">
+        <div>
+          Number of installments: <span id="numberOfInstallments"></span>
+        </div>
+        <div>Payment: <span id="payment"></span></div>
+        <div>Total interests: <span id="totalInterests"></span></div>
+        <div>
+          Number of installments: <span id="numberOfInstallments"></span>
+        </div>
+        <div>Interests/Loan (%): <span id="interestByLoan"></span></div>
+        <div>Total payment: <span id="totalPayment"></span></div>
+      </div>
+    </div>
+    <style>
+      html {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+      }
+
+      .container {
+        padding: 1em;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+      }
+
+      label:not(:last-child) {
+        margin-bottom: 1em;
+      }
+
+      .submit-button {
+        padding: 0.5em 1em;
+        font-size: 1rem;
+        background: rgb(0, 162, 255);
+        border: none;
+        color: white;
+        border-radius: 4px;
+      }
+
+      .display {
+        margin-top: 2em;
+      }
+
+      .display > div {
+        margin-top: 1em;
+      }
+
+      input {
+        font-size: 1rem;
+      }
+    </style>
+    <script>
+      function handleSubmit(e) {
+        e.preventDefault()
+        const { loan, mrr, startPayment } = e.target
+        const data = calculateMortgage(
+          loan.value,
+          mrr.value,
+          startPayment.value
+        )
+
+        const elementIds = [
+          "numberOfInstallments",
+          "payment",
+          "totalInterests",
+          "interestByLoan",
+          "totalPayment",
+        ]
+
+        elementIds.forEach((id) => {
+          document.getElementById(id).innerText = data[id]
+        })
+      }
+    </script>
+  </body>
+</html>
