@@ -14,7 +14,22 @@
           Loan: <input name="loan" inputmode="numeric" type="number" required
         /></label>
         <label>
-          MRR: <input name="mrr" inputmode="numeric" type="number" required
+          MRR:
+          <input
+            name="mrr"
+            inputmode="numeric"
+            type="number"
+            required
+            step=".01"
+        /></label>
+        <label>
+          Years:
+          <input
+            name="years"
+            inputmode="numeric"
+            type="number"
+            required
+            value="30"
         /></label>
         <label>
           start payment (for testing):
@@ -23,6 +38,7 @@
             inputmode="numeric"
             value="30000"
             type="number"
+            step="1000"
             required
         /></label>
         <button class="submit-button" type="submit">Calculate</button>
@@ -84,10 +100,11 @@
     <script>
       function handleSubmit(e) {
         e.preventDefault()
-        const { loan, mrr, startPayment } = e.target
+        const { loan, mrr, startPayment, years } = e.target
         const data = calculateMortgage(
           loan.value,
           mrr.value,
+          years.value,
           startPayment.value
         )
 

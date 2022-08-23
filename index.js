@@ -1,16 +1,17 @@
 ;(function (window) {
   window.calculateMortgage = calculateMortgage
 
-  function calculateMortgage(loan, mrr, startPayment) {
+  function calculateMortgage(loan, mrr, years = 30, startPayment) {
     // const { argv } = process
     // const [loan, mrr, startPayment] = argv.slice(2)
 
     const MRR = Number(mrr) / 100
     const NUMBER_OF_MONTHS_IN_YEAR = 12
-    const NUMBER_OF_INSTALLMENTS = 30 * NUMBER_OF_MONTHS_IN_YEAR
-    const MARGIN_END_BALANCE = 0
+    const NUMBER_OF_INSTALLMENTS = years * NUMBER_OF_MONTHS_IN_YEAR
+    const TARGET_BALANCE = 0
     const PAYMENT_STEP = 10
 
+    let numberOfInstallments = 0
     let payment = Number(startPayment) || 30000
     let accumulatedBalance = Number(loan)
     let totalInterest = 0
@@ -18,24 +19,29 @@
     loop()
 
     // consecutive rounds
-    while (accumulatedBalance > MARGIN_END_BALANCE) {
+    while (accumulatedBalance > TARGET_BALANCE) {
       payment += PAYMENT_STEP
       accumulatedBalance = Number(loan)
       totalInterest = 0
+      numberOfInstallments = 0
 
       loop()
     }
 
     function loop() {
       for (let i = 0; i < NUMBER_OF_INSTALLMENTS; i++) {
+        numberOfInstallments += 1
         const interest = (MRR * accumulatedBalance) / NUMBER_OF_MONTHS_IN_YEAR
         totalInterest += interest
         accumulatedBalance = accumulatedBalance - (payment - interest)
+        if (accumulatedBalance < 0) {
+          break
+        }
       }
     }
 
     const data = {
-      numberOfInstallments: NUMBER_OF_INSTALLMENTS,
+      numberOfInstallments,
       payment,
       totalInterests: formatCurrency(totalInterest),
       interestByLoan: formatNumber((totalInterest / Number(loan)) * 100) + "%",
