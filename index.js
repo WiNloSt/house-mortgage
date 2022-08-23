@@ -1,9 +1,30 @@
 ;(function (window) {
   window.calculateMortgage = calculateMortgage
+  window.formatNumber = function formatNumber(input) {
+    const parsedNumber = parseNumber(input.value)
+    const formattedNumber = format(parsedNumber)
+    if (formattedNumber === "0") {
+      input.value = ""
+      return
+    }
 
+    if (formattedNumber === "NaN") {
+      input.value = input.value.slice(0, -1)
+      return
+    }
+    input.value = formattedNumber
+  }
+
+  function parseNumber(numberString) {
+    return Number(numberString.replace(/[,.]/g, ""))
+  }
+
+  function format(number) {
+    return new Intl.NumberFormat("en-US").format(number)
+  }
   function calculateMortgage(loan, mrr, years = 30, startPayment) {
-    // const { argv } = process
-    // const [loan, mrr, startPayment] = argv.slice(2)
+    loan = parseNumber(loan)
+    startPayment = parseNumber(startPayment)
 
     const MRR = Number(mrr) / 100
     const NUMBER_OF_MONTHS_IN_YEAR = 12
@@ -42,11 +63,11 @@
 
     const data = {
       numberOfInstallments,
-      payment,
+      payment: formatCurrency(payment),
       totalInterests: formatCurrency(totalInterest),
       interestByLoan: formatNumber((totalInterest / Number(loan)) * 100) + "%",
       totalPayment: formatCurrency(
-        payment * NUMBER_OF_INSTALLMENTS + accumulatedBalance
+        payment * numberOfInstallments + accumulatedBalance
       ),
     }
 

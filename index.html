@@ -11,7 +11,14 @@
       <h1>Calculate mortgage</h1>
       <form onsubmit="handleSubmit(event)">
         <label>
-          Loan: <input name="loan" inputmode="numeric" type="number" required
+          Loan:
+          <input
+            name="loan"
+            inputmode="numeric"
+            type="text"
+            pattern="[0-9,.]*"
+            required
+            onkeyup="formatNumber(this)"
         /></label>
         <label>
           MRR:
@@ -36,10 +43,10 @@
           <input
             name="startPayment"
             inputmode="numeric"
-            value="30000"
-            type="number"
-            step="1000"
+            value="30,000"
+            pattern="[0-9,.]*"
             required
+            onkeyup="formatNumber(this)"
         /></label>
         <button class="submit-button" type="submit">Calculate</button>
       </form>
